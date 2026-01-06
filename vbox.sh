@@ -135,6 +135,7 @@ createVM() {
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
+      --xml ./devices/graphics/@sharePolicy=ignore \
       --noautoconsole  --import --machine virt --noacpi --boot loader=$__LOADER
     else
       $_SUDO_VIR_ virt-install \
@@ -147,6 +148,7 @@ createVM() {
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
+      --xml ./devices/graphics/@sharePolicy=ignore \
       --noautoconsole  --import --machine virt --noacpi --boot loader=$__LOADER
     fi
   elif [ "$VM_ARCH" = "riscv64" ]; then
@@ -161,6 +163,7 @@ createVM() {
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
+      --xml ./devices/graphics/@sharePolicy=ignore \
       --noautoconsole  --import --machine virt --noacpi --boot kernel=/usr/lib/u-boot/qemu-riscv64_smode/u-boot.bin
     else
       $_SUDO_VIR_ virt-install \
@@ -173,6 +176,7 @@ createVM() {
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
+      --xml ./devices/graphics/@sharePolicy=ignore \
       --noautoconsole  --import --machine virt --noacpi --boot kernel=/usr/lib/u-boot/qemu-riscv64_smode/u-boot.bin
     fi
   elif [ "$VM_ARCH" = "sparc64" ]; then
@@ -187,6 +191,7 @@ createVM() {
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
+      --xml ./devices/graphics/@sharePolicy=ignore \
       --noautoconsole  --import --machine sun4u --noacpi --boot loader=/usr/share/qemu/openbios-sparc64
     else
       $_SUDO_VIR_ virt-install \
@@ -199,6 +204,7 @@ createVM() {
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
+      --xml ./devices/graphics/@sharePolicy=ignore \
       --noautoconsole  --import --machine sun4u --noacpi --boot loader=/usr/share/qemu/openbios-sparc64
     fi
   else
@@ -212,6 +218,7 @@ createVM() {
     --os-variant=$_ostype \
     --network network=default,model=${VM_NIC:-e1000} \
     --graphics vnc,listen=0.0.0.0 \
+    --xml ./devices/graphics/@sharePolicy=ignore \
     --noautoconsole  --import
   fi
 
@@ -738,7 +745,7 @@ startWeb() {
     echo "Usage: startWeb netbsd"
     return 1
   fi
-
+  rm -rf _stopvnc.txt
   python3 -m http.server >/dev/null 2>&1 &
   if ! [ -e "index.html" ]; then
     echo "<!DOCTYPE html>
@@ -756,13 +763,22 @@ startWeb() {
   fi
 
   if [ "$_needOCR" ]; then
-    (while true; do screenText "$_osname" "screen.png"; sleep 3; done)&
+    (while true; do 
+      if [ ! -e "_stopvnc.txt" ] ; then
+        screenText "$_osname" "screen.png"; 
+      fi
+      sleep 3; 
+    done
+    )&
   else
     (while true; do $_SUDO_VIR_  virsh "$_osname" "screen.ppm"; convert "screen.ppm" "screen.png"; sleep 3; done)&
   fi
 
 }
 
+pauseVNC() {
+  touch "_stopvnc.txt"
+}
 
 exportOVA() {
   _osname="$1"
