@@ -132,6 +132,8 @@ createVM() {
       --arch "$VM_ARCH" \
       --disk $_iso \
       --disk path=$_vdi,format=qcow2,bus=${VM_DISK:-virtio} \
+      --xml ./devices/disk[2]/driver/@discard=unmap \
+      --xml ./devices/disk[2]/driver/@detect_zeroes=unmap \
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
@@ -144,6 +146,8 @@ createVM() {
       --vcpus ${VM_CPU:-2} \
       --arch "$VM_ARCH" \
       --disk path=$_vdi,format=qcow2,bus=${VM_DISK:-virtio} \
+      --xml ./devices/disk[1]/driver/@discard=unmap \
+      --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
       --cdrom $_iso \
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
@@ -160,6 +164,8 @@ createVM() {
       --arch "$VM_ARCH" \
       --disk $_iso \
       --disk path=$_vdi,format=qcow2,bus=${VM_DISK:-virtio} \
+      --xml ./devices/disk[2]/driver/@discard=unmap \
+      --xml ./devices/disk[2]/driver/@detect_zeroes=unmap \
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
@@ -172,6 +178,8 @@ createVM() {
       --vcpus ${VM_CPU:-2} \
       --arch "$VM_ARCH" \
       --disk path=$_vdi,format=qcow2,bus=${VM_DISK:-virtio} \
+      --xml ./devices/disk[1]/driver/@discard=unmap \
+      --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
       --cdrom $_iso \
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
@@ -188,6 +196,8 @@ createVM() {
       --arch "$VM_ARCH" \
       --disk $_iso \
       --disk path=$_vdi,format=qcow2,bus=${VM_DISK:-virtio} \
+      --xml ./devices/disk[2]/driver/@discard=unmap \
+      --xml ./devices/disk[2]/driver/@detect_zeroes=unmap \
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
       --graphics vnc,listen=0.0.0.0 \
@@ -200,6 +210,8 @@ createVM() {
       --vcpus ${VM_CPU:-1} \
       --arch "$VM_ARCH" \
       --disk path=$_vdi,format=qcow2,bus=${VM_DISK:-virtio} \
+      --xml ./devices/disk[1]/driver/@discard=unmap \
+      --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
       --cdrom $_iso \
       --os-variant=$_ostype \
       --network network=default,model=${VM_NIC:-e1000} \
@@ -214,6 +226,8 @@ createVM() {
     --vcpus ${VM_CPU:-2} \
     --arch ${VM_ARCH:-x86_64} \
     --disk path=$_vdi,format=qcow2,bus=${VM_DISK:-virtio} \
+    --xml ./devices/disk[1]/driver/@discard=unmap \
+    --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
     --cdrom $_iso \
     --os-variant=$_ostype \
     --network network=default,model=${VM_NIC:-e1000} \
