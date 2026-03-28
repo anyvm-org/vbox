@@ -263,6 +263,8 @@ createVMFromVHD() {
     --vcpus ${VM_CPU:-2} \
     --arch ${VM_ARCH} \
     --disk $_vhd,format=qcow2,bus=${VM_DISK:-virtio} \
+    --xml ./devices/disk[1]/driver/@discard=unmap \
+    --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
     --os-variant=$_ostype \
     --network network=default,model=${VM_NIC:-e1000} \
     --graphics vnc,listen=0.0.0.0 \
@@ -275,6 +277,8 @@ createVMFromVHD() {
     --vcpus ${VM_CPU:-2} \
     --arch ${VM_ARCH} \
     --disk $_vhd,format=qcow2,bus=${VM_DISK:-virtio} \
+    --xml ./devices/disk[1]/driver/@discard=unmap \
+    --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
     --os-variant=$_ostype \
     --network network=default,model=${VM_NIC:-e1000} \
     --graphics vnc,listen=0.0.0.0 \
@@ -286,6 +290,8 @@ createVMFromVHD() {
     --vcpus ${VM_CPU:-1} \
     --arch ${VM_ARCH} \
     --disk $_vhd,format=qcow2,bus=${VM_DISK:-virtio} \
+    --xml ./devices/disk[1]/driver/@discard=unmap \
+    --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
     --os-variant=$_ostype \
     --network network=default,model=${VM_NIC:-e1000} \
     --graphics vnc,listen=0.0.0.0 \
@@ -297,6 +303,8 @@ createVMFromVHD() {
     --vcpus ${VM_CPU:-2} \
     --arch ${VM_ARCH:-x86_64} \
     --disk $_vhd,format=qcow2,bus=${VM_DISK:-virtio} \
+    --xml ./devices/disk[1]/driver/@discard=unmap \
+    --xml ./devices/disk[1]/driver/@detect_zeroes=unmap \
     --os-variant=$_ostype \
     --network network=default,model=${VM_NIC:-e1000} \
     --graphics vnc,listen=0.0.0.0 \
